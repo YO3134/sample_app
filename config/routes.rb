@@ -11,6 +11,8 @@ root 'static_pages#home'
   #get 'static_pages/contact'
   get '/contact', to:'static_pages#contact'
   #ルーティングの変更で名前付きルート (*_path) が使える
-  #get '/helf', to:'static_pages#helf' 
+  #get '/helf', to:'static_pages#helf'
   get '/signup', to:'users#new'
+  post '/signup', to:'users#create'
+  resources :users
 end
