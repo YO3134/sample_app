@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
+
 root 'static_pages#home'
   #get 'static_pages/home'
   #/static_pages/homeというURLに対するリクエストをStaticPagesコントローラのhomeアクションに結ぶ
@@ -14,5 +16,12 @@ root 'static_pages#home'
   #get '/helf', to:'static_pages#helf'
   get '/signup', to:'users#new'
   post '/signup', to:'users#create'
+  #「名前付きルーティング」だけを使う｀
+  # GET POSTリクエストを loginルーティング
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+  # DELETEリクエストを logoutルーティングで扱う
+
   resources :users
 end
