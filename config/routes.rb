@@ -24,4 +24,5 @@ root 'static_pages#home'
   # DELETEリクエストを logoutルーティングで扱う
 
   resources :users
+  resources :account_activations, only:[:edit]
 end
