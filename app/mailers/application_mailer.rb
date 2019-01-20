@@ -1,4 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  default from: "noreply@example.com"
+  # 実際に有効化メールで使える
   layout 'mailer'
 end
