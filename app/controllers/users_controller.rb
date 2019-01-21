@@ -21,9 +21,13 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      #UserMailer.account_activation(@user).deliver_now
+      @user.send_activation_email
+      #ユーザーモデルオブジェクトからメールを送信する
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
+      #リダイレクト先をプロフィール先からルートURLに変更し、かつユーザーは以前のようにはログインしない
+
       # redirect_to user_url(@user)
       # Handle a succsessful save.
     else
