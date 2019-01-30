@@ -68,6 +68,12 @@ class User < ApplicationRecord
       UserMailer.password_reset(self).deliver_now
     end
 
+    # パスワード再設定の期限が切れている場合はをtrue返す
+    def password_reset_expired?
+      # 「パスワード再設定メールの送信時刻が、現在時刻より２時間以上前の場合」
+      reset_sent_at < 2.hours.ago
+    end
+
   private
     # メールアドレスをすべて小文字にする
     def downcase_email
