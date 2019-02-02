@@ -12,6 +12,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    #インスタンス変数userにUserモデルからfindメソッドを用いて
+    #引数(params[:id])による値を代入する
+    @microposts = @user.microposts.paginate(page: params[:page])
+    #@microposts変数をshowアクションに追加する
+    #＠micropostsに@user.microposts.paginate引数(page: params[:id])
+    #paginateメソッド マイクロポスト関連付けを
   end
 
   def new
