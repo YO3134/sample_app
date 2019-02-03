@@ -24,3 +24,11 @@ User.create!(name:  "Example User",
                activated: true,
                activated_at: Time.zone.now)
 end
+
+users = User.order(:created_at).take(6)
+#take method 配列の先頭から引数n個の要素を取り出して、新しい配列を作成して返す。
+#作成日時順に６つ先頭から要素を取り出して新しい配列を作成する
+50.times do
+  content = Faker::Lorem.sentence(5)
+  users.each { |user| user.microposts.create!(content: content)}
+end
