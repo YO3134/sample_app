@@ -1,15 +1,16 @@
 Rails.application.routes.draw do
+  root 'static_pages#home'
+  #get 'static_pages/home'
+  #/static_pages/homeというURLに対するリクエストをStaticPagesコントローラのhomeアクションに結ぶ
+  #GETリクエスト
+  #get 'static_pages/help'
+
   get 'password_resets/new'
 
   get 'password_resets/edit'
 
   get 'sessions/new'
 
-root 'static_pages#home'
-  #get 'static_pages/home'
-  #/static_pages/homeというURLに対するリクエストをStaticPagesコントローラのhomeアクションに結ぶ
-  #GETリクエスト
-  #get 'static_pages/help'
   get '/help', to:'static_pages#help'
   #get 'static_pages/about'
   get '/about', to:'static_pages#about'
@@ -27,8 +28,14 @@ root 'static_pages#home'
   delete '/logout', to: 'sessions#destroy'
   # DELETEリクエストを logoutルーティングで扱う
 
+
+  # resources RESTfulなURLを自動生成(resources)
+  # index show new create edit update destroy
   resources :users
   resources :account_activations, only:[:edit]
   resources :password_resets, only:[:new, :create, :edit, :update]
   # resourcesを用いる
+  resources :microposts, only: [:create, :destroy]
+  # POST   /microposts   create   microposts_path
+  # DELETE /microposts/1 destroy  microposts_path(micropost)
 end
