@@ -25,8 +25,8 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     @user.microposts.paginate(page: 1).each do |micropost|
       assert_match micropost.content, response.body
     end
-    assert_select 'div.pagination', count: 1
-    # assert_select 'HTML' count: 1 
+    #assert_select 'div.pagination', count: 1
+    # assert_select 'HTML' count: 1
     # will_paginateに該当する、div class=paginationが1度のみ表示されていることをテスト
   end
 end
