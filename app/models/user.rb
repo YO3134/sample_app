@@ -1,5 +1,11 @@
 class User < ApplicationRecord
     has_many :microposts, dependent: :destroy
+
+    has_many :active_relationships, class_name: "Relationship",
+    foreign: "follower_id",
+    dependent: :destroy
+    #能動的関係に対して１対多（has_many）の関連付けを実装する
+
     attr_accessor :remember_token, :activation_token, :reset_token
     before_save :downcase_email
     before_create :create_activation_digest
