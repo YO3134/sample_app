@@ -5,6 +5,9 @@ class User < ApplicationRecord
     foreign_key: "follower_id",
     dependent: :destroy
     #能動的関係に対して１対多（has_many）の関連付けを実装する
+    has_many :following, through: :active_relationships, source: :followed
+    # following配列の元はfollowed idの集合である」ということを明示的にRailsに伝える
+    # フォローしているユーザーを配列の様に扱う
 
     attr_accessor :remember_token, :activation_token, :reset_token
     before_save :downcase_email
@@ -85,6 +88,21 @@ class User < ApplicationRecord
       Micropost.where("user_id = ?", id)
       #?によってSQLクエリに代入する前にidがエスケープされるため、SQLインジェクションと呼ばれる
       #深刻なセキュリティーホールを避けることができる
+    end
+
+    #ユーザーをフォローする
+    def follow(other_user)
+      following << other_user
+    end
+
+    #ユーザーのフォローを解除する
+    def unfollow(other_user)
+      active_relationships.find_by(followed: other_user.id).destroy
+    end
+    
+    #現在のユーザーがフォローしていたらtrueを返す
+    def following?(other_user)
+      following.include?(other_user)
     end
 
   private

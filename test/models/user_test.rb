@@ -71,4 +71,21 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy
     end
   end
+
+  test "should follow and unfollow a user" do
+    michael = users(:michael)
+    #ローカル変数michaelにメソッドuser引数（：michael）を代入
+    archer = users(:archer)
+    #ローカル変数archerにメソッドuser引数（：archer）を代入    
+    assert_not michael.following?(archer)
+    #michaelをarcherがフォローしていなければTrue
+    michael.follow(archer)
+    #archerがmichaelをフォローする
+    assert michael.following?(archer)
+    #archerがmichaelをフォローしていることを確認
+    michael.unfollow(archer)
+    #archerからmichaelへのフォローを解除
+    assert_not michael.following?(archer)
+    #archerがmichaelをフォローしていないことを確認する
+  end
 end
