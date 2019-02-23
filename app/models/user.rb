@@ -1,13 +1,22 @@
 class User < ApplicationRecord
     has_many :microposts, dependent: :destroy
 
-    has_many :active_relationships, class_name: "Relationship",
-    foreign_key: "follower_id",
-    dependent: :destroy
     #能動的関係に対して１対多（has_many）の関連付けを実装する
+    has_many :active_relationships, class_name: "Relationship",
+                                    foreign_key: "follower_id",
+                                    dependent: :destroy
+
+    #受動的関係を使ってuser.followersを実装する
+    has_many :passive_relationships, class_name: "Relationship",
+                                    foreign_key: "followed_id",
+                                    dependent: :destroy
+
     has_many :following, through: :active_relationships, source: :followed
     # following配列の元はfollowed idの集合である」ということを明示的にRailsに伝える
     # フォローしているユーザーを配列の様に扱う
+
+    has_many :followers, through: :passive_relationships, source: :follower
+    #上記↑:sourceキーは省略可能 has_many :followingとの類似性を強調させるため
 
     attr_accessor :remember_token, :activation_token, :reset_token
     before_save :downcase_email
