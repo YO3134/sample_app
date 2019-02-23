@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+# User
 User.create!(name:  "Example User",
              email: "example@railstutorial.org",
              password:              "foobar",
@@ -25,6 +26,7 @@ User.create!(name:  "Example User",
                activated_at: Time.zone.now)
 end
 
+# micropost
 users = User.order(:created_at).take(6)
 #take method 配列の先頭から引数n個の要素を取り出して、新しい配列を作成して返す。
 #作成日時順に６つ先頭から要素を取り出して新しい配列を作成する
@@ -32,3 +34,13 @@ users = User.order(:created_at).take(6)
   content = Faker::Lorem.sentence(5)
   users.each { |user| user.microposts.create!(content: content)}
 end
+
+# Relationship
+users = User.all
+user = users.first
+following = users[2..50]
+followers = users[3..40]
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user)}
+#最初のユーザーにユーザー３からユーザー５１までをフォロー
+#ユーザー４からユーザー４１に最初のユーザーをフォロー
